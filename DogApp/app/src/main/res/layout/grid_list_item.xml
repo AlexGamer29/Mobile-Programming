@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- TODO: Note that this list item will be used in a grid view which requires a
+                different layout because the list will have two columns of cards.
+                This means that the information within the card must stack the vertically
+                since there is less room in terms of width.-->
+
+        <!-- TODO: Create an ImageView resource for the image of the dog.
+               The height should be 194dp
+               The width should match the with of the card
+               The scaleType should be set to centerCrop-->
+
+        <ImageView
+            android:id="@+id/iv_url"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="center">
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_dog_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Dog nè"
+                android:textColor="@color/black"
+                android:textSize="22dp"
+                android:layout_weight="1"></TextView>
+
+
+            <CheckBox
+                android:id="@+id/likeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_love"
+                android:button="@null"
+                android:checked="false"
+                android:stateListAnimator="@drawable/anim_scale" />
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_origin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Origin"
+            android:textColor="#a9a9a9"
+            android:textSize="16dp"></TextView>
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
