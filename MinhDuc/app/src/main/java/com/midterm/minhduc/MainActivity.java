@@ -3,11 +3,15 @@ package com.midterm.minhduc;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +22,7 @@ import android.widget.Toast;
 
 import com.midterm.minhduc.databinding.ActivityMainBinding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
     private DataApiService dataApiService;
     private DataApi dataApi;
 
+    private AppDatabase appDatabase;
+    private DataDao dataDao;
+
+    public DataViewModel model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,23 +56,70 @@ public class MainActivity extends AppCompatActivity {
         binding.rvData.setLayoutManager(new GridLayoutManager(this, 1));
         listData = new ArrayList<>();
 
+        appDatabase = AppDatabase.getInstance(this);
+        dataDao = appDatabase.dataDAO();
+
+
+
         dataApiService = DataApiService.getInstance();
-        fetchApi();
 
-        DataViewModel model = new ViewModelProvider(this).get(DataViewModel.class);
+        fetchAPI();
 
-        model.getUsers().observe(this, new Observer<List<Data>>() {
-            @Override
-            public void onChanged(List<Data> data) {
-                Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
-                listData.addAll(data);
-                dataAdapter.setDatas(data);
-                binding.rvData.setAdapter(dataAdapter);
-            }
-        });
+        model = new ViewModelProvider(this).get(DataViewModel.class);
+
+
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent getIntent = getIntent();
+//                String title = getIntent.getStringExtra("del_title");
+//                String desc = getIntent.getStringExtra("del_desc");
+//                String timeStamp = getIntent.getStringExtra("del_timeStamp");
+//                String lat = getIntent.getStringExtra("del_lat");
+//                String lng = getIntent.getStringExtra("del_lng");
+//                String addr = getIntent.getStringExtra("del_addr");
+//                String e = getIntent.getStringExtra("del_e");
+//                String zip = getIntent.getStringExtra("del_zip");
+//                if (getIntent != null) {
+//                    model.delete(new Data(title, desc, timeStamp, lat, lng, addr, e, zip));
+//                }
+//            }
+//        });
+
+//        model.getAllDatas().observe(this, new Observer<List<Data>>() {
+//            @Override
+//            public void onChanged(List<Data> data) {
+//                listData.addAll(data);
+////                dataAdapter.setDatas(data);
+//                dataAdapter = new DataAdapter(MainActivity.this, listData);
+//                binding.rvData.setAdapter(dataAdapter);
+//            }
+//        });
+
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMessageReceiver,
+                new IntentFilter("delete"));
     }
 
-    public void fetchApi() {
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+//            String title = intent.getStringExtra("del_title");
+//            String desc = intent.getStringExtra("del_desc");
+//            String timeStamp = intent.getStringExtra("del_timeStamp");
+//            String lat = intent.getStringExtra("del_lat");
+//            String lng = intent.getStringExtra("del_lng");
+//            String addr = intent.getStringExtra("del_addr");
+//            String e = intent.getStringExtra("del_e");
+//            String zip = intent.getStringExtra("del_zip");
+            int position = intent.getIntExtra("position", 0);
+            if (intent != null) {
+                model.delete(listData.get(position));
+            }
+        }
+    };
+
+    public void fetchAPI() {
         Call<List<Data>> call = dataApiService.getDatas();
         call.enqueue(new Callback<List<Data>>() {
             @Override
@@ -71,8 +128,9 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                List<Data> listData = response.body();
-                dataAdapter = new DataAdapter(MainActivity.this, listData);
+                List<Data> listTmp = response.body();
+                listData.addAll(listTmp);
+                dataAdapter = new DataAdapter(MainActivity.this, listTmp);
                 binding.rvData.setAdapter(dataAdapter);
             }
 
@@ -120,17 +178,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void search(String query) {
+        String searchQuery = "%$query%";
+
+
+    }
+
 //    @Override
 //    protected void onSaveInstanceState(Bundle outState) {
-//        outState.putSerializable("d", listData);
+//        outState.putSerializable("d", (Serializable) listData);
 //        super.onSaveInstanceState(outState);
 //    }
 //
 //    @Override
 //    protected void onRestoreInstanceState(Bundle savedInstanceState) {
 //        if (savedInstanceState != null) {
-//            listData = (List<Data>) savedInstanceState.getSerializable("d");
-//            dataAdapter = new ArrayAdapter<>(this, R.layout.data_item, listData);
+//            List<Data> data = (List<Data>) savedInstanceState.getSerializable("d");
+//            dataAdapter = new DataAdapter(MainActivity.this, data);
 //            binding.rvData.setAdapter(dataAdapter);
 //        }
 //        super.onRestoreInstanceState(savedInstanceState);

@@ -1,8 +1,49 @@
 package com.midterm.minhduc;
 
-import com.google.gson.annotations.SerializedName;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
 public class Data {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @ColumnInfo
+    private String title;
+
+    @ColumnInfo
+    private String desc;
+
+    @ColumnInfo
+    private String timeStamp;
+
+    @ColumnInfo
+    private String lat;
+
+    @ColumnInfo
+    private String lng;
+
+    @ColumnInfo
+    private String addr;
+
+    @ColumnInfo
+    private String e;
+
+    @ColumnInfo
+    private String zip;
+
+    public Data(String title, String desc, String timeStamp, String lat, String lng, String addr, String e, String zip) {
+        this.title = title;
+        this.desc = desc;
+        this.timeStamp = timeStamp;
+        this.lat = lat;
+        this.lng = lng;
+        this.addr = addr;
+        this.e = e;
+        this.zip = zip;
+    }
 
     public int getId() {
         return id;
@@ -36,32 +77,7 @@ public class Data {
         this.timeStamp = timeStamp;
     }
 
-    @SerializedName("id")
-    private int id;
 
-    @SerializedName("title")
-    private String title;
-
-    @SerializedName("desc")
-    private String desc;
-
-    @SerializedName("timeStamp")
-    private String timeStamp;
-
-    @SerializedName("lat")
-    private String lat;
-
-    @SerializedName("lng")
-    private String lng;
-
-    @SerializedName("addr")
-    private String addr;
-
-    @SerializedName("e")
-    private String e;
-
-    @SerializedName("zip")
-    private String zip;
 
     public String getLat() {
         return lat;
@@ -102,20 +118,6 @@ public class Data {
     public void setZip(String zip) {
         this.zip = zip;
     }
-
-    public Data(int id, String title, String desc, String timeStamp, String lat, String lng, String addr, String e, String zip) {
-        this.id = id;
-        this.title = title;
-        this.desc = desc;
-        this.timeStamp = timeStamp;
-        this.lat = lat;
-        this.lng = lng;
-        this.addr = addr;
-        this.e = e;
-        this.zip = zip;
-    }
-
-
 
 
 }

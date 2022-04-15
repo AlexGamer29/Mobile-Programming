@@ -1,8 +1,10 @@
 package com.midterm.minhduc;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.lights.LightState;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,10 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -25,14 +31,17 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
 
     private Context context;
 
+    private DataViewModel model;
 
     public DataAdapter(Context context, List<Data> listData) {
         this.context = context;
         this.listData = listData;
         this.listDataSearch = listData;
+
+//        model = new ViewModelProvider((FragmentActivity) context).get(DataViewModel.class);
     }
 
-    public void setDatas(List<Data> listData){
+    public void setDatas(List<Data> listData) {
         this.listData = listData;
         notifyDataSetChanged();
     }
@@ -85,22 +94,33 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull DataAdapter.ViewHolder holder, int position) {
         Data data = listData.get(position);
 
+
         holder.tvTitle.setText(data.getTitle());
         holder.tvDesc.setText(data.getDesc());
         holder.tvTimestamp.setText(data.getTimeStamp());
-
-
-
 
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
                 if (isLongClick) {
-                    listData.remove(position);
-                    notifyDataSetChanged();
-                }
-                else {
+//                    listData.remove(position);
+//                    notifyDataSetChanged();
+                    int pos = position;
+//                    model.delete(data);
+
+                    Intent del = new Intent("delete");
+//                    del.putExtra("del_title", data.getTitle());
+//                    del.putExtra("del_desc", data.getDesc());
+//                    del.putExtra("del_timeStamp", data.getTimeStamp());
+//                    del.putExtra("del_lat", data.getTimeStamp());
+//                    del.putExtra("del_lng", data.getLng());
+//                    del.putExtra("del_addr", data.getAddr());
+//                    del.putExtra("del_e", data.getE());
+//                    del.putExtra("del_zip", data.getZip());
+                    del.putExtra("position", pos);
+                    LocalBroadcastManager.getInstance(context.getApplicationContext()).sendBroadcast(del);
+                } else {
                     //Details Activity
                     Intent detailsIntent = new Intent(context, DetailsActivity.class);
                     String title = listData.get(position).getTitle();
@@ -121,9 +141,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
                     detailsIntent.putExtra("zip", "zip: " + zip);
                     context.startActivity(detailsIntent);
                 }
-
             }
         });
+
+
     }
 
     @Override
@@ -164,7 +185,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> im
             return true;
         }
     }
-
 
     public interface ItemClickListener {
         void onClick(View view, int position, boolean isLongClick);

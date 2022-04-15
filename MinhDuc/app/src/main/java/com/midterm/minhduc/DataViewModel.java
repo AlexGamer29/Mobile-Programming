@@ -1,22 +1,40 @@
 package com.midterm.minhduc;
 
+import android.app.Activity;
+import android.app.Application;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
+import com.midterm.minhduc.repo.Repo;
+
 import java.util.List;
 
-public class DataViewModel extends ViewModel {
-    private LiveData<List<Data>> users;
+import kotlinx.coroutines.flow.Flow;
+import retrofit2.Call;
 
-    public LiveData<List<Data>> getUsers() {
-        loadUsers();
-        return users;
+public class DataViewModel extends AndroidViewModel {
+    private Repo repository;
+    private LiveData<List<Data>> allDatas;
+
+    public DataViewModel(@NonNull Application application) {
+        super(application);
+        repository = new Repo(application);
+        allDatas = repository.getAllDatas();
     }
 
-    private void loadUsers() {
-        DataApiService dataApiService = DataApiService.getInstance();
-        users = (LiveData<List<Data>>) dataApiService.getDatas();
+    public void delete(Data data) {
+        repository.delete(data);
+    }
+
+    public void deleteAllNotes() {
+        repository.deleteAllNotes();
+    }
+
+    public LiveData<List<Data>> getAllDatas() {
+        return allDatas;
     }
 }
