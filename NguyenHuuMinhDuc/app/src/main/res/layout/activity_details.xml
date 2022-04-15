@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.DetailsActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_details_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title: "
+        android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_details_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Desc: "
+        android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_details_timestamp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Timestamp: "
+        android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_details_lat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="lat: "
+        android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_details_lng"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="lng: "
+        android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_details_addr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="addr: "
+        android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_details_e"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="e: "
+        android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_details_zip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="zip: "
+        android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_vertical"
+        ></TextView>
+
+</LinearLayout>
